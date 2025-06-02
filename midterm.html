@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+
+    <!-- owl.carousel -->
+    <link rel="stylesheet" href="js/owl.carousel/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="js/owl.carousel/owl.theme.default.min.css"/>
+    <script src="js/owl.carousel/owl.carousel.min.js"></script>
+
+    <!--jQuery UI-->
+    <link rel="stylesheet" href="js/jquery-ui.min.css">
+    <script src="js/jquery-ui.min.js"></script>
+
+     <!--Darkmode.Js-->
+     <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+
+    <style>
+        /** 背景 **/
+        @keyframes moving {
+            from {
+                background-position: 50%;
+            }
+            to {
+                background-position:100%;
+            }
+        }
+
+        .navbar{
+            background-image: url(images/airplane.png);
+            background-repeat: no-repeat;
+            background-position: center center;
+            height: 70px;
+            animation: moving 30s linear infinite;
+        }
+
+        /** Navbar **/
+        .navbar {
+            background-color: aliceblue;
+        }
+
+        /*Card*/
+        /* 白天樣式（預設） */
+        .card {
+          background-color: #fff;
+          color: #000;
+        }
+
+        /* 夜間模式樣式 */
+        body.darkmode--activated .card {
+          background-color: #222; /* 或你喜歡的暗色 */
+          color: #eee;
+        }
+
+        /*黑夜白天按鍵位置*/
+        .darkmode-toggle {
+          z-index: 9999 !important;
+        }
+
+        /** 輪播圖**/
+       .Carousel-img-item{
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+        }
+
+       /** 最近瀏覽 **/
+       .owl-theme .item {
+          height: 20rem;
+        }
+        .owl-carousel .item h4 {
+          color: #fff;
+          font-weight: 1000;
+        }
+        .card-img-overlay{
+          opacity: 0.9;
+        }
+
+        /** 今日主打 **/
+        #accordion{
+          margin: 0 auto;
+          width: 98%;
+        }
+        #acc{
+          max-height: 500px;
+          overflow-y: scroll;
+        }
+        #accordion h3  {
+          background-color: #f0ad4e; /* 背景色 */
+          color: #fff; /* 文字顏色 */
+        }
+
+        
+        #accordion2{
+          margin: 0 auto;
+          width: 98%;
+        }
+        #acc2{
+          max-height: 1000px;
+          overflow-y: scroll;
+        }
+        #accordion2 h3  {
+          background-color: #f0ad4e; /* 背景色 */
+          color: #fff; /* 文字顏色 */
+        }
+        /* 設定點擊後的背景顏色 */
+        .accactive2 {
+         background-color: #5bc0de !important; /* 點擊後的背景色 */
+          color: #fff !important; /* 文字顏色 */
+        }
+
+
+        .badge-img{
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        .badge-container {
+          position: relative;
+          display: inline-block;
+        }
+        .badge-text{
+           display: inline-block;
+        }
+
+        .penghu-food-img{
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .penghu-food-img img{
+          float: left;
+          width: 23%;
+          margin: 1%;
+        }
+        .nav-link.active {
+          color: black !important;
+        }
+ 
+        #nav-tabContent{
+          height: 600px;
+          overflow-y: scroll;
+        }
+        @media(max-width:768px) {
+          .penghu-food-img img{
+            width: 46%;
+            margin: 2%;
+          }
+        }
+        @media(max-width:569px) {
+          .penghu-food-img img {
+            width: 90%;
+          }
+        }
+
+        .foot-img img{
+            width: 90px;
+        }
+
+        /**進度條**/
+        svg{
+          position: fixed;
+          bottom:5%;
+          right: 5%;
+          opacity: 0;
+          z-index: 3;
+          transition: 0.3s;
+          cursor: pointer;
+          
+          .progress{
+          --dashOffset: 300;
+          stroke-dasharray: 300;
+          stroke-dashoffset: var(--dashOffset); 
+          transform: rotate(-90deg);
+          transform-origin: center;
+          }
+          .arrow{
+            transform: translate(25%, 30%);
+            animation: arrow 2s infinite ease-in;
+          }
+          
+        }
+
+        @keyframes arrow{
+          0%, 30%{
+            transform: translate(25%, 30%);
+            opacity: 1;
+          }
+          80%{
+            transform: translate(25%, 12%);
+            opacity: 0.3;
+          }
+          90%,100%{
+            transform: translate(25%, 8%);
+            opacity: 0;
+          }
+        }
+        
+    </style>
+</head>
+<body id="main">
+  <div>
+    <!--Navbar-->
+    <div class="container-fluid ">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+            <div class="container-fluid">
+              <a class="navbar-brand"><img class="img-fluid" width="100" src="images/logo.png" alt=""></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="background-color: aliceblue;">
+                  <!--🤖 LINE 旅遊規劃機器人-->
+                  <li class="nav-item">
+                    <a class="nav-link active" href="https://line.me/R/ti/p/@899rzvvx">🤖 LINE 旅遊規劃機器人</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+    </div>
+
+    <!--Carousel輪播-->
+    <!--<div class="container-fluid" style="margin-top: 70px;">
+        <div id="carouselExampleInterval" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="/images/location1.jpg" class="d-block w-50" alt="...">
+                <div class="carousel-caption bg-secondary fw-bold opacity-75 d-none d-md-block">
+                    <h3 class="md-block">菁埔彩繪村</h3>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <video id="v" controls class="Carousel-img-item" autoplay muted>
+                  <source src="video/video2.mp4" type="video/mp4">
+                </video>
+                <div class="carousel-caption bg-secondary fw-bold opacity-75 d-none d-md-block">
+                    <h3>印度</h3>
+                    <p>包括天然景觀不輸西藏的Ladakh、完整印度教文化體驗的恆河、沙漠絕美城市Rajasthan、各具風格的四色城、嬉皮最愛海灘Goa等。<br>
+                        如果你想來這裡進行朝聖之旅，拜訪喇嘛或是體驗瑜珈的奧妙。<br>
+                        只要你做好對付髒亂、有點沒秩序、特殊食物與水的準備，那麼，喜歡文化衝擊的人，絕對不要錯過印度這個神奇的國家!
+                    </p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <video controls class="Carousel-img-item" autoplay muted>
+                  <source src="video/video3.mp4" type="video/mp4">
+                </video>
+                <div class="carousel-caption bg-secondary fw-bold opacity-75 d-none d-md-block">
+                    <h3>土耳其</h3>
+                    <p>在這趟奇幻之旅裡，你可以遇見的，除了眾所皆知的熱氣球奇景及棉堡外，還有許多歷史悠久的古蹟與城市。<br>
+                        例如古希臘人建立的城市Ephesus、傳說中的特羅伊遺跡、世界上最大的地下遺址，深度可達兩百公尺的Derinkuyu以及擁有許多偉大建築物的伊斯坦堡。
+                    </p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <video controls class="Carousel-img-item" autoplay muted>
+                  <source src="video/video4.mp4" type="video/mp4">
+                </video>
+                <div class="carousel-caption bg-secondary fw-bold opacity-75 d-none d-md-block">
+                    <h3>羅馬尼亞</h3>
+                    <p>對於喜歡自然景觀又不想太累的人來說，來一場Transfagarasan的公路旅行吧!<br>
+                        想像在約海拔兩千公尺的地方，開車奔馳並徜徉於獨特的美景之中。<br>
+                        這條被喻為世界上最棒公路之一的路線，保證能讓你體驗公路旅行的美好。
+                    </p>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+    <br>-->
+
+    <!--民雄鄉-->
+    <div class="card mb-3" style="margin-top: 70px;">
+      <div class="row g-0">
+        <div class="col-md-4 d-flex justify-content-center align-items-center">
+          <img src="images/Minsyong.png" class="img-fluid rounded " alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h2 class="card-title"><b>民雄鄉</b></h2>
+            <hr>
+            <p class="card-text">
+              台一線和縱貫鐵路相繼切過民雄的正中央，也區隔了鄉內的二種地形：左邊是平原、右邊是山坡。多樣的地形條件，為民雄的農業發展帶來了更多的選擇和發展潛力。在平原有稻米、雜糧、甘蔗和蓮藕，在丘陵則是鳳梨、金桔和竹筍等。其中鳳梨在農會的輔導下，如今已研發出十幾種品種，每年三月到十月輪番上陣，一舉打響了民雄鳳梨的名號。<br><br>
+              鳳梨之外，民雄也是白酒的故鄉。創建於1922年的嘉義酒廠，所生產的高梁酒、蔘茸酒、虎骨酒、雙鹿五加皮酒、竹葉青、玉山高梁酒等等，不但行銷國內外，更屢獲國際酒類評鑑大獎。其中玉山陳高，可說是嘉南平原最道地的香醇酒品。<br><br>
+              民雄昔稱「打貓」，此地本是舊時洪雅平埔族所居的打貓社，是當時洪雅族的中樞。日治時期在此設立的民雄放送局，說明了這裡的樞紐位置。如今的民雄，是嘉義縣十八的鄉鎮中，人口最多、也是教育及工商業最為發達的鄉鎮，不似其他農村總是憂心人口外流。中正大學、嘉義大學、吳鳳科技大學等大學在此，帶來大批的青年學生、知識份子，分別形成大學城的生活模式，也為原本的農村氣息增添了不少流行的元素，讓大多鄉民以務農為生的民雄，到處躍動著年輕的蓬勃朝氣。</p>
+            </p>
+            <p class="card-text"><small class="text-muted">民雄鄉公所: 地址： 62142 嘉義縣民雄鄉中樂村文化路7號 | 電話： 886-5-2262101~8 </small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="accordion" >
+      <!--🎨 文化歷史巡禮-->
+      <h3 class="accactive"><b style="font-size:larger;">🎨 文化歷史巡禮</b></h3>
+      <div id="acc">
+        <p>
+          <b>
+            適合對歷史、建築、文化有興趣的遊客</br>
+            可安排半日至一日的步行或自行車深度旅遊</br>
+          </b>
+        </p>
+        
+        <!--推薦景點-->
+        <h4 class="mt-5"><img class=".img-fluid rounded" width="40px" src="images/icon_HOT.png" alt="">推薦景點</h4>
+        <!--國家廣播文物館-->
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+              <img src="images/國家廣播文物館.jpg" class="img-fluid rounded " alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h2 class="card-title"><b>國家廣播文物館</b></h2>
+                <hr>
+                <p class="card-text">
+                  全國唯一以廣播為主題的博物館，民雄大小事的放送中心。</br>
+                  本館建置於嘉義縣定歷史建築內，原址為日據時期之「民雄放送所」，係日本政府二戰時期進行心戰廣播的根據地；民國38年後的兩岸對峙時期，成為中央廣播電臺對大陸進行心戰廣播的重要據點，曾經是國家電臺對海外傳遞國家資訊的重點分臺，現今由地方文化館提昇為博物館邁進。館內存有許多廣播史料、文物與機具，是國內極具歷史價值的廣播文物館。館內保存日據時期建置、至今仍可啟動之古董發射機，播音工作坊內的透明播音室，可讓來館民眾一圓廣播DJ夢，鄰近各級學校皆將本館列為戶外教學合作展館。</br>
+                  隸屬於中央廣播電臺的國家廣播文物館成立於民國88年，為臺灣第一座展現廣播歷史與故事的文物館，民國91年底登錄為歷史建築，民國93年加入地方文化館。</br>
+                  館內陳設近百件廣播古董、史料、文物與機具，來館民眾不僅可清楚明瞭廣播的製作與發射過程，還可以體驗當廣播DJ的樂趣，為戶外教學合作展館，是國內極具歷史價值的廣播文物館，為匯集更大能量，服務更多遊客，未來將充實博物館四大功能，朝向永續經營目標努力。</br>
+                </p>
+                <p class="card-text"><small class="text-muted">
+                  <b>電話： </b>886-5-2262016</br>
+                  <b>地址： </b>621嘉義縣民雄鄉寮頂村民權路74號</br>
+                  <b>大眾運輸： </b>《搭客運》嘉義客運往北港或新港方向，在民雄國小下車，再往民權路方向前進約二十分鐘或轉搭計程車三分鐘。《搭火車》乘台鐵列車至民雄站下車，再往民權路方向前進約十五分鐘或轉搭計程車三分鐘。《自行開車》自中山高速公路下大林交流道，轉至台一線往嘉義方向約三十分鐘即可到達</br>
+                  <b>開放時間： </b>每周二至周日 上午9：00-11：00；下午1：30-4：00，每周一休館。逢周休二日，例假日請來電預約。</br>
+                  <b>票價資訊： </b>門票：全票50元、優惠票20元 (65歲以上長者、國小學童、民雄鄉民、領有志工榮譽證)。參與文物館活動者、國小以下孩童、身心障礙手冊者及必要陪伴一人可免費參觀。</br>
+                </small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--中央廣播電台民雄分台日式宿舍區-->
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+              <img src="images/中央廣播電台民雄分台日式宿舍區.jpg" class="img-fluid rounded " alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h2 class="card-title"><b>中央廣播電台民雄分台日式宿舍區</b></h2>
+                <hr>
+                <p class="card-text">
+                  中央廣播電台民雄分台日式宿舍群約略創建於昭和15年（1940）年，也就是民雄放送局成立階段。放送局也就是日治時期廣播電台的稱謂。</br>
+                  民雄放送所對於台灣廣播事業發展之重要與代表性，也加深了中央廣播電台民雄分台日式宿舍群之歷史價值。若以大正11（1922）年頒布之「台灣總督府官舍建築標準」為標準，現今民雄分台保存之宿舍區可分為高等官官舍、判任官甲種二戶建官舍、判任官乙種二戶建官舍及判任官丙種二戶建官舍等四種官舍標準。群聚之聚落比起單棟建築在保存上更具意義及困難度，因為他保留了當時的環境與氛圍，而這種特有的環境與氛圍，配合中央廣播電台民雄分台環境與中央廣播電台民雄分台日式招待所等建築，形成一種重要之歷史文化保存區，完整的呈現了台灣日治時期產業建築之特色，實屬難得而具有獨特性。</br>
+                  中央廣播電台民雄分台日式宿舍群相關之歷史空間仍保存良好，具歷史價值已於民國89年7月6日經嘉義縣政府公告登錄為嘉義縣歷史建築。</br>    
+                </p>
+                <p class="card-text"><small class="text-muted"> <b>電話： </b>886-5-3703550</br>
+                  <b>地址： </b>嘉義縣民雄鄉民權路52、54、56、58、60、62、66、68、70、72等10戶6棟日式宿舍。</br>
+                  <b>開放時間： </b>全天</br>
+                  </small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+         <!--歷史建築國家廣播文物館-->
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="images/歷史建築國家廣播文物館.jpg" class="img-fluid rounded " alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h2 class="card-title"><b>歷史建築國家廣播文物館</b></h2>
+                <hr>
+                <p class="card-text">
+                  在日據時代的名稱是「民雄放送所」的現今國家廣播文物館，在當時是日本政府為了阻止臺灣人收聽南京政府中央電台的節目，並進行日本南進政策的軍事及心戰用途，而在民雄地區的廣大水田上建台，直至民國29年9月28日正式開播；抗戰勝利後，國家廣播文物館成了歷史的角色之一，見證歷史的還有一部由日本NEC電氣製造公司生產的MB-15A型中波發射機。看著館內擬真的兩座260公尺鐵塔所組成的Ｔ型鐵塔模型，不難想像當時的國家廣播文物館能成為民雄的重要地標。</br>
+                </p>
+                <p class="card-text"><small class="text-muted"> <b>電話： </b>886-5-2262016</br>
+                  <b>地址： </b>嘉義縣民雄鄉寮頂村民權路74號</br>
+                  <b>大眾運輸： </b>《搭客運》嘉義客運往北港或新港方向，在民雄國小下車，再往民權路方向前進約二十分鐘或轉搭計程車三分鐘。 《搭火車》乘台鐵列車至民雄站下車，再往民權路方向前進約十五分鐘或轉搭計程車三分鐘。 《自行開車》自中山高速公路下大林交流道，轉至台一線往嘉義方向約三十分鐘即可到達。</br>
+                  <b>自行前往： </b>行中山高速公路下257公里民雄交流道，接164縣道往民雄方向行駛，至民雄市區，轉民權路行約1.5公里，右側即到達。</br>
+                  <b>開放時間： </b>週一休館;二至五0900-1100；1330-1600</br>
+                  <b>備註： </b>《參觀資訊》每周二至周日 上午9：00-11：00；下午1：30-4：00，每周一休館。 周末、假日DIY、導覽服務及錄音請於3日前來電預約《預約電話》05-2262016 門票：全票50元、優惠票20元 (65歲以上長者、民雄鄉民、領有志工榮譽證) 參與文物館活動者、身心障礙手冊者及必要陪伴一人可免費參觀。 休館日：週一、除夕至大年初五及政府公告颱風日</br>
+                  <a href="https://www.facebook.com/museumms/">店家網址</a>
+                  </small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--中央廣播電台民雄分台日式招待所-->
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+              <img src="images/中央廣播電台民雄分台日式招待所.jpg" class="img-fluid rounded " alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h2 class="card-title" style="text-align: center;"><b>中央廣播電台民雄分台日式招待所</b></h2>
+                <p class="card-text">
+                  本所於昭和15年興建完成，當年在「民雄放送所」工作的日籍工作人員，則入住日式招待所。 人無法再造歷史，但是歷史可以經由人的維護保存下來，成為歷史發展的證物。招待所空間建築採正統日式格局，基座為洗石嵌卵石、木骨構造，門廊由木門柱支撐，屋頂由木格天花舖設、出簷設計，保留日式建築原汁原味，也記錄許多值得永久保存的歷史回憶。</br>
+                  日式招待所本身即記載了許多歷史，為讓這一代的民眾能印證書本上的歷史紀錄，有需要將這棟建物登錄為歷史建築。 登錄：九十年七月二十六日召開本縣歷史建築登錄審查會，決議通過將中央廣播電台民雄分台日式招待所登錄為歷史建築，本縣於九十年十一月二十八日公告登錄，九十一年三月十八日獲文建會備查通過。</br>
+                </p>
+                <p class="card-text"><small class="text-muted">
+                  <b>地址： </b>嘉義縣民雄鄉寮頂村民權路五十號。</br>
+                  <b>大眾運輸： </b>搭嘉義客運或嘉義公車民雄線於民雄站下車再依民權路走，依指標前往。</br>
+                  <b>自行前往： </b>1.國道3號：下竹崎交流道往民雄鄉即166縣道直走，接建國路二段右轉直走接東榮路左轉，接民權路右轉循指標前往。 2.國道1號：下大林交流道進入大林鎮接中正路右轉即是省道1號，(1)接東榮路右轉，接民權路右轉循指標前往，(2)轉嘉88號路(往下寮方向)依指示牌到館。 3.開車自台１線進入民雄即可看到招牌。</br>
+                  <b>開放時間： </b>週一未營業，週二至週日：上午9:00 - 下午5:00</br>
+                  <b>停車資訊： </b>
+                  外有停車場</br>
+                </small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--歷史建築民雄「何元英祠堂」-->
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+              <img src="images/歷史建築民雄「何元英祠堂」.jpg" class="img-fluid rounded " alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h2 class="card-title" style="text-align: center;"><b>歷史建築民雄「何元英祠堂」</b></h2>
+                <p class="card-text">
+                  創建： 興建年代不詳</br>
+                  竣工：昭和三年（1928）</br>
+                  該建築為一樓磚牆結構，其正廳內供有祖宗牌位之神龕，刻載其祖先來自漳洲府和平縣清靈里，供案前書有何姓之 [ 廬山衍派 ] 堂號，前步口廊柱刻有「源遠流長本支百世，蘋馨藻潔俎豆千秋」之對聯。 建築物結構體及彩繪部分保存狀況良好，何宅之屋架屬於嘉南平原地區民宅常見之穿斗式，採十二架六桂式，具有與當時代指標性象徵意義。因此登錄為本縣歷史建築。</br>
+                </p>
+                <p class="card-text"><small class="text-muted">
+                  <b>電話： </b>886-5-3703550</br>
+                  <b>地址： </b>嘉義縣民雄鄉平和村28號</br>
+                  <b>開放時間： </b>正確時間需以當地公佈為準，請先致電洽詢。</br>
+                </small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--國立中正大學-->
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+              <img src="images/國立中正大學.jpg" class="img-fluid rounded " alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h2 class="card-title" style="text-align: center;"><b>國立中正大學</b></h2>
+                <p class="card-text">
+                  嘉義縣內有多所高等教育學府，充滿著文教氣息。而中正大學即為縣內一優良高級學府。中正大學為一所新興的大學，它的前身是一片甘蔗田，民國76年12月1日，行政院正式核定民雄鄉的這塊土地作為中正大學的建校用地，原本滋養萬物的土地，轉而承接了培育莘莘學子的新時代任務，之後學校陸續成立了中國文學、應用數學、社會福利、資訊工程、國際經濟等五所研究所，截至目前為止已經是一所發展完善的大學。</br>
+                  中正大學校地廣大，建築優美，而以其寧靜湖、清園為校園內最著名的景點。寧靜湖原為校園中南側之深溝，依照沉祖海建築師之校園規劃構想，將此深構開闢為寧靜湖。湖上跨有二十公尺寬的高拱橋，為學校南北端之景觀軸線起點，跨湖拱橋除做交通連結之用，長虹臥波的景觀更為本校一大特殊風景，湖區內育有校園成功繁殖的天鵝及綠頭鴨等水禽。清園為中正師生為感念本校創校校長---林清江先生對創建中正大學的貢獻，而連署發起興建，頗具紀念意義。特別的是園內植物栽種類別，以四季交替呈現色彩植物為原則，以現有之樟樹林營造各種地貌,呈現自然生態之美。校園中央的中央噴水池也是其特色之ㄧ，為一具有報時功能之噴水池,於整點及半時噴出美麗水霧約15分鍾,而中央廣場噴水池燈柱有其造型上之意義,十二支柱子代表一年,十二個活水源頭,而噴出之水全表示由上而下生生不息的生命動態，為中正大學最富代意義之精神地標.</br>
+                </p>
+                <p class="card-text"><small class="text-muted">
+                  <b>電話： </b>886-5-2720411</br>
+                  <b>地址： </b>民雄鄉大學路168號</br>
+                  <b>大眾運輸： </b>1.嘉義火車站下車，並於火車站前搭乘縣公車往中正大學方向。 2.民雄火車站下車，出民雄市區至老人會館前搭乘縣公車往中正大學、南華大學方向。 3.台灣好行故宮南院線，中正大學站下車。</br>
+                  <b>自行前往： </b>1.國道1號：南下方向由大林交流道(45)下交流道，依照指示往省道台一線民雄方向行駛，於縣道106時左轉，再行駛五分鐘即抵達。 2.國道1號：北上方向由嘉義交流道(46)下交流道，依照指示往省道台一線民雄方向行駛，行駛約二十分鐘，轉入縣道106，再行駛五分鐘即抵達。</br>
+                  <b>開放時間： </b>參照學校作息規定</br>
+                  <a href="https://www.ccu.edu.tw/">店家網址</a>
+                </small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     <!--🧃 親子同遊 x 觀光工廠之旅-->
+     <h3 class="accactive"><b style="font-size:larger;">🧃 親子同遊 x 觀光工廠之旅</b></h3>
+     <div id="acc">
+       <p>
+         <b>
+          適合家庭、學校戶外教學，有DIY、導覽、互動體驗活動
+         </b>
+       </p>
+       
+       <!--推薦景點-->
+       <h4 class="mt-5"><img class=".img-fluid rounded" width="40px" src="images/icon_HOT.png" alt="">推薦景點</h4>
+       <!--旺萊山鳳梨文化園區-->
+       <div class="card mb-3">
+         <div class="row g-0">
+           <div class="col-md-4 d-flex justify-content-center align-items-center">
+             <img src="images/旺萊山鳳梨文化園區.jpg" class="img-fluid rounded " alt="...">
+           </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title"><b>旺萊山鳳梨文化園區</b></h2>
+               <hr>
+               <p class="card-text">
+                旺萊山鳳梨文化園區位於嘉義中正大學附近，旺萊山由來因為民雄有個地方專門出產鳳梨，所以以台語來命名就稱為旺萊(鳳梨)山。</br>
+                主要是以民雄出產的鳳梨酥為主題，讓遊客觀光，工廠內有免費提供熱茶、鳳梨酥給來的遊客品嘗。</br>
+                旺萊山的土鳳梨酥，是採用得過神農獎及吉園圃(GAP)安全水果認證的鳳梨達人栽種出的鳳梨，就地採收後現做內餡，外皮則使用土雞蛋、日本職人麵粉，以及歐洲進口奶粉與法國頂級奶油製成。</br>
+               </p>
+               <p class="card-text"><small class="text-muted">
+                 <b>電話： </b>886-5-2720696</br>
+                 <b>地址： </b>嘉義縣民雄鄉三興村陳厝寮1-3號</br>
+                 <b>停車資訊： </b>內有停車場</br>
+                 <b>開放時間： </b>早上9：00-下午18：00 全年無休（只有除夕中午後休）</br>
+                 <b>票價資訊： </b>
+                 無票價</br>
+               </small></p>
+             </div>
+           </div>
+         </div>
+       </div>
+       <!--卡普秀時空膠囊觀光工廠-->
+       <div class="card mb-3">
+         <div class="row g-0">
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+              <img src="images/卡普秀時空膠囊觀光工廠.jpg" class="img-fluid rounded " alt="...">
+            </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title"><b>卡普秀時空膠囊觀光工廠</b></h2>
+               <hr>
+               <p class="card-text">
+                卡普秀觀光工廠自1980年開始，不斷以專業的知識潛心研究保養保健產品，改良傳統生產設備，從原物料到研發；從生產到包裝，採取多元化製程嚴格把關。在2000年創立保養品代理工廠，並堅持以最實在的原物料為基礎，開發最優質、最有益消費者的保健食品及保養品。</br>
+                2011 年通過縣政府評鑑並成功轉型為觀光工廠，希望能以專業和誠信的多年經驗，逆轉民眾對於高價位或國外保養品優質的認知，堅持以最誠信的理念來打造優質、適價的每一項產品</br>
+                觀光工廠以「自然環保概念」為出發點，反對動物實驗，提高民眾的認知與參與，珍惜地球上的寸土資源，實踐更多愛護地球的行動。</br>    
+               </p>
+               <p class="card-text"><small class="text-muted"> 
+                 <b>地址： </b>台灣嘉義縣民雄工業區成功五街3號</br>
+                <b>自行前往： </b>國道1號： (1)民雄交流道(往民雄方向) →右轉台1線→見MAZDA門市→左轉進民雄工業區→ 右轉中正路→左轉成功五街→卡普秀時空膠囊觀光工廠。 (2)嘉義交流道(往嘉義市區方向)→北港路→左轉世賢路→左轉忠孝路(台1線)→ 見 MAZDA門市→右轉進民雄工業區→右轉中正路→左轉成功五街→卡普秀時空膠囊觀光工廠。 國道3號： 竹崎交流道(往民雄方向)→縣道166號→進民雄工業區→左轉中正路→右轉成功五街→卡普秀時空膠囊觀光工廠。</br>
+                <b>大眾運輸： </b>1.台灣好行-高鐵嘉義站→故宮南院→蒜頭蔗埕文化園區→頂菜園→板陶窯→新港奉天宮→菁埔貓世界→民雄火車站→中正大學→金桔農莊→旺萊山→松田崗休閒農莊→民雄工業區服務中心(卡普秀時空膠囊觀光工廠)。 2.台灣好行-臺鐵嘉義站→檜意森活村→民雄工業區服務中心(卡普秀時空膠囊觀光工廠)</br>
+                 <b>開放時間： </b>週一至週日，上午８點 至 下午５點</br>
+                 <b>票價資訊： </b>全館導覽及參觀免收取門票</br>
+                 <a href="https://www.capshow.com.tw/">店家網址</a>
+                 </small></p>
+             </div>
+           </div>
+         </div>
+       </div>
+        <!--民雄金桔觀光工廠-->
+       <div class="card mb-3">
+         <div class="row g-0">
+           <div class="col-md-4">
+             <img src="images/民雄金桔觀光工廠.jpg" class="img-fluid rounded " alt="...">
+           </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title"><b>民雄金桔觀光工廠</b></h2>
+               <hr>
+               <p class="card-text">
+                品牌的故事──民雄在地的金桔物語</br>
+                民國25年(西元1936年)創舉人蔡海漂先生，於友人家中偶然嚐到金桔，自此對金桔念念不忘，亦曾赴日考察、發現日人皆十分重視各地特產之發展，於擔任民雄農會四健會指導員期間，興起創造家鄉名產、貢獻地方民生之念頭，遂推廣農民種植金桔，並於民國49年(西元1960年)設廠加工製作金桔蜜餞。<br>
+                蓽路藍縷，民雄金桔已經走過半世紀，秉承祖訓、遵循古法手工煉製，用心製作最好的蜜餞，陪著代代民雄人成長，鹹、甜的老滋味始終在回憶中難忘。<br>
+               </p>
+               <p class="card-text"><small class="text-muted"> 
+                <b>電話： </b>05-2720351</br>
+                 <b>地址： </b>嘉義縣民雄鄉三興村38號(中正大學旁)</br>
+                 <b>自行前往： </b>1.國道1號： 南下方向－大林交流道下－縣道162－省道台一線－ 民雄方向－縣道106左轉－再行駛五分鐘即抵達中正大學－ 沿著中正大學圍牆往前走到盡頭左轉－金桔農莊。 北上方向－嘉義交流道下－縣道159－省道台一線－ 民雄方向－縣道159右轉－再行駛五分鐘即抵達中正大學－ 沿著中正大學圍牆往前走到盡頭左轉－金桔農莊。 2.國道3號： 南下方向－梅山交流道下－縣道162－省道台一線－ 民雄方向－縣道106左轉－再行駛五分鐘即抵達中正大學－ 沿著中正大學圍牆往前走到盡頭左轉－金桔農莊。 北上方向－竹崎交流道下－縣道166－民雄方向－ 再依照沿路之指示牌，即可抵達中正大學－ 沿著中正大學圍牆往前走到盡頭左轉－金桔農莊。</br>
+                 <b>開放時間： </b>09:00~17:00</br>
+                 <a href="http://kingezi.com.tw/">店家網址</a>
+                 </small></p>
+             </div>
+           </div>
+         </div>
+       </div>
+       <!--臺灣菸酒公司嘉義觀光酒廠-->
+       <div class="card mb-3">
+         <div class="row g-0">
+           <div class="col-md-4 d-flex justify-content-center align-items-center">
+             <img src="images/臺灣菸酒公司嘉義觀光酒廠.jpg" class="img-fluid rounded " alt="...">
+           </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title" style="text-align: center;"><b>臺灣菸酒公司嘉義觀光酒廠</b></h2>
+               <p class="card-text">
+                嘉義酒廠創建於民國五年（大正五年），廠房大部分為木造建築，建地僅2,945坪，三十二年第二次世界大戰期，日本人為逃避美軍空襲，於阿里山麓二萬坪籌設分場，釀造清酒。然嘉義酒廠大部分建物及設備均遭轟炸受損，三十四年台灣光復後，由台灣省專賣局接收，積極修護。三十八年二萬坪分場因規模甚小，運輸困難予以撤銷。台灣光復之初，廠地有3.7334公頃，五十五年至七十二年間陸續接收、增購廠地至3.985公頃，並不斷更新或增加製酒設備。 五十六年由於高粱酒品質改良，銷量激增，原有生產設備不足，是年六月奉准擴建增產，五十九年九月擴建計畫完成，歷時三年又二個月，興辦機電及營繕工程達205 件，拆除舊有木造建築28棟（未拆除建物有：十三年十一月興建之中間試驗工場；十九年四月興建之鍋爐室、五金倉庫、再製酒工場及製麴工場；二十三年三月興建之包裝工場及二十六年三月興建之機械修理與木工室等七處），新建鋼筋混凝土及加強磚造廠房計有行政大樓、高粱酒第一、二工作場、高粱及小麥散裝倉庫、原料倉庫、成品倉庫等，總建築面積25,560平方公尺，動支經費新台幣一億七百萬元。 嘉義酒廠為因應地方政府都市發展及擴充產能，奉省政府核准分二期遷建於嘉義縣民雄工業區，第一期新建紹興酒工廠，於七十二年九月開工，七十四年十二月完工，第二期遷建高粱酒工廠，於七十九年七月動土，八十六年十一月落成。八十八年二月廿五日嘉義舊酒廠酒香飄飄八十三載，正式劃下句點。九十二年三月一日舊廠土地及廠房移轉國有財產局管理。嘉義酒廠分主館及製酒機械展示區，近千坪場地展出酒廠百年製酒歷程，豐富的酒博物館，還能現場品嚐試飲。（喝酒不開車）</br>
+               </p>
+               <p class="card-text"><small class="text-muted">
+                <b>電話：</b>886-5-2215172<br>
+                 <b>地址： </b>嘉義縣民雄鄉中山路3號</br>
+                 <b>自行前往： </b>行中山高速公路下257公里民雄交流道，接164縣道往民雄方向行駛，經民雄市區，接台1線省道後右轉，並沿台1省道行駛至262公里之前的紅綠燈左轉，左轉後約前100公尺左側即見酒廠大門。</br>
+                 <b>開放時間： </b>上9點~下午5點全年無休(除夕例外)</br>
+                 <b>停車資訊： </b>內有停車場</br>
+                 <b>票價資訊： </b>無票價<br>
+                 <a href="https://event.ttl.com.tw/cy/index.aspx">店家網址</a>
+               </small></p>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+
+     <!--🍽 美食之旅-->
+     <h3 class="accactive"><b style="font-size:larger;">🍽 美食之旅</b></h3>
+     <div id="acc">
+       <p>
+         <b>
+          在地知名小吃、特色料理聚集地，適合吃貨路線
+         </b>
+       </p>
+       
+       <!--推薦景點-->
+       <h4 class="mt-5"><img class=".img-fluid rounded" width="40px" src="images/icon_HOT.png" alt="">推薦景點</h4>
+       <!--民雄鵝肉街-->
+       <div class="card mb-3">
+         <div class="row g-0">
+           <div class="col-md-4 d-flex justify-content-center align-items-center">
+             <img src="images/民雄鵝肉街.jpg" class="img-fluid rounded " alt="...">
+           </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title"><b>民雄鵝肉街</b></h2>
+               <hr>
+               <p class="card-text">
+                提到嘉義民雄好吃的料理，民雄鵝肉街的名氣是遠近皆知，在民雄火車站附近，鵝肉店家比鄰相接形成一條鵝肉街。每到用餐時間，擠滿了人潮和車潮。而這邊的鵝肉在烹調上有其獨門技術，使得鵝肉肉質鮮美有彈性，而在醬料及湯頭上也非常講究，店內販賣的鵝肉副產品如脆腸或米血也是非常好吃，來到民雄一定要來嚐嚐看這裡美味的鵝肉料理。</br>
+               </p>
+               <p class="card-text"><small class="text-muted">
+                 <b>自行前往： </b>行中山高速公路下257公里民雄交流道，接164縣道往民雄方向行駛，至民雄市區，位於鐵路平交道旁即到達。</br>
+                 <b>大眾運輸：</b>搭乘火車在民雄火車站下車即可抵達<br>
+                 <b>開放時間： </b>配合商家作息</br>
+               </small></p>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+
+     <!--🛕 宗教巡禮 x 廟宇建築-->
+     <h3 class="accactive"><b style="font-size:larger;">🛕 宗教巡禮 x 廟宇建築</b></h3>
+     <div id="acc">
+       <p>
+         <b>
+          走訪地方信仰中心、欣賞建築工藝與宗教文化
+         </b>
+       </p>
+       
+       <!--推薦景點-->
+       <h4 class="mt-5"><img class=".img-fluid rounded" width="40px" src="images/icon_HOT.png" alt="">推薦景點</h4>
+       <!--大士爺廟-->
+       <div class="card mb-3">
+         <div class="row g-0">
+           <div class="col-md-4 d-flex justify-content-center align-items-center">
+             <img src="images/大士爺廟.jpg" class="img-fluid rounded " alt="...">
+           </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title"><b>大士爺廟</b></h2>
+               <hr>
+               <p class="card-text">
+                歷史沿革：</br>
+                興建年代：創建年代不詳，重建於大正12年(1923)</br>
+                主祀神明：觀音大士(大士爺)</br>
+                本廟建築起源年代無法考證，可能創建乾隆年間。明治39年(1906)梅山大地震，廟宇全毀，至大正12年(1923)，信眾集資復建，並將民雄地區同遭震災的大士爺廟、慶誠宮(媽祖)、開漳聖王廟(陳元光)、開台聖王廟(鄭成功)四座主神合祀，但受限於日本的殖民宗教政策，只好以「慈濟寺」名義復建。至民國76年 (1987)恢復原來廟名。</br>
+                大士爺，也稱為大士爺伯、大士爺公，其起源說法甚多：一 說大士爺是鬼王，後被觀音菩薩收降；或說其實是觀音菩薩化身為鬼王樣貌以降伏眾妖鬼；而縣志記載的是，北港泉州人與民雄漳州人，為一文錢細故械鬥，死傷慘重，所以事後雙方協議以普渡方式，祭拜亡魂，大士爺即亡魂神靈之代表；也有說是因為瘟疫，先民因此祭祀原本家鄉所信仰的大士爺，希望能平息疾病。這些說法雖然不一致，但實際反映了本廟排解械鬥紛爭、促進移民社會和諧，在疾疫流行時安定人心……等多樣的功能。</br>
+                由於大士爺過去僅在普渡時才設紙糊神像在街角祭祀(或說觀音大士僅在該時期才化身為鬼王樣貌)，所以平日正殿上只能看到觀世音菩薩端坐。每年農曆7月21日 至23日是民雄的年度盛事－大士爺祭，這時廟方會將一尊青面獠牙的紙糊大士爺神像，供奉在正殿。到了普渡尾聲，將大士爺神像和山神、土地公等紙糊品，火化升天，以象徵大士爺帶走眾家好兄弟，讓地方恢復平靜。</br>
+                建築簡介：</br>
+                大士爺廟現有建築重建於大正12年，合祀了四座廟宇的神明，因此大士爺廟的格局區分為四大部份：左右側邊建築是開漳聖王殿和開台聖王殿，中軸線的三川殿和主 殿則是大士爺廟的主體，後殿則是祭祀媽祖的慶誠宮。另外從本廟三川殿和左右兩座山門並列的正立面，應也可以看出數廟並列的味道。</br>
+                本廟年代最古老的構件，應是三川殿的石獅和後殿柱珠，都是原本慶誠宮的舊物，為嘉慶14年所雕。石獅尤其是石雕中的上品，造型屬於清領中期風格，值得仔細欣賞。此外三川殿的木雕細緻且題材特殊，有書生、農夫、樵夫及漁翁的人物，和以地獄景象為主題的雕窗。</br>
+                建築特色：</br>
+                本廟的重建樑柱及石材主要來自1905年時同遭地震傾倒的慶誠宮等廟，還放置了一些清領時期的廟宇文物，所以間接保存了民雄地區的廟宇文化。</br>
+               </p>
+               <p class="card-text"><small class="text-muted">
+                 <b>電話： </b>886-5-2261464</br>
+                 <b>地址： </b>嘉義縣民雄鄉中樂村中樂路81號</br>
+                 <b>自行前往： </b>1.國道3號高速公路下竹崎交流道往民雄鄉，即166縣道直走，接建國路二段右轉，直走接中庄橋下一個路口左轉即到達。 2.國道1號高速公路下民雄交流道，接民新路往民雄市區，至民雄陸橋頭左轉文化路至中樂路左轉即至。</br>
+                 <b>開放時間： </b>上午6:30~下午9:30</br>
+               </small></p>
+             </div>
+           </div>
+         </div>
+       </div>
+       <!--慶誠宮-->
+       <div class="card mb-3">
+         <div class="row g-0">
+            <div class="col-md-4 d-flex justify-content-center align-items-center">
+              <img src="images/慶誠宮.jpg" class="img-fluid rounded " alt="...">
+            </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title"><b>慶誠宮</b></h2>
+               <hr>
+               <p class="card-text">
+                慶誠宮舊名媽祖宮，建於清嘉慶年間，相傳是嘉慶君遊台灣時，抵古稱「打貓」的民雄，感念「天上聖母」庇祐的神恩，御賜建廟資材，並派中國著名建廟師傅來台興建。因此，祂也是全台唯一蒙清嘉慶君敕封的媽祖廟。主祀「大媽」，神格地位崇高，不僅是民雄地區的信仰中心，也是雲、嘉三縣市媽祖信徒的聖廟。日明治39年（1906）3月17日，大地震，慶誠宮圯毀，廟地被日政府強徵為道路用地，媽祖只好暫祀民雄鄉大士爺廟後殿。媽祖沒有自己的宮殿可以安座，一直令信徒感到無奈；每年媽祖誕辰遶境，神轎抵達舊廟地時，均徘徊流連，捨不得離開；媽祖亦多次藉著乩童降旨或以輦轎降詩，傳達希望百年內能重建的心願。民國88年（1999），信徒籌組重建委員會，積極籌措建廟經費，前後歷時5年，終告完成。</br>    
+               </p>
+               <p class="card-text"><small class="text-muted"> 
+                <b>電話：</b>886-5-2064348<br>
+                <b>地址： </b>嘉義縣民雄鄉中樂路64號</br>
+                <b>自行前往： </b>1.國道3號：下竹崎交流道往民雄鄉即166縣道直走，接建國路二段右轉直走接中庄橋下一個路口左轉即抵。 2.國道1號：下大林交流道進入大林鎮接中正路右轉即是省道1號，接東榮路下一個路口右轉即抵。</br>
+                 <b>開放時間： </b>6:30-21:30</br>
+                 </small></p>
+             </div>
+           </div>
+         </div>
+       </div>
+        <!--五穀王廟-->
+       <div class="card mb-3">
+         <div class="row g-0">
+           <div class="col-md-4">
+             <img src="images/五穀王廟.jpg" class="img-fluid rounded " alt="...">
+           </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title"><b>五穀王廟</b></h2>
+               <hr>
+               <p class="card-text">
+                五穀王即為神農大帝，台灣以農立國，以種植稻穀作物為主，則五穀神發揚穀麥有功，受到後人肯定及尊敬，致每年到了誕辰農曆四月二十六日當天，祭典都十分隆重、熱鬧。該廟創於清康熙年間，至今已有數百年歷史。原是本地百姓為祈求五榖豐收，而興建五榖王廟，如今香火鼎盛，中正大學大部分的建校用地即是此廟所捐贈的。<br>
+               </p>
+               <p class="card-text"><small class="text-muted"> 
+                <b>電話： </b>886-5-2063325</br>
+                 <b>地址： </b>嘉義縣民雄鄉豐收村148之ㄧ號</br>
+                 <b>自行前往： </b>1. 國道1號：南下由大林交流道下，往台1線民雄方向，於106號縣道左轉往中正大學方向於豐收村牌樓左轉，約三分鐘即可抵達。 2. 國道1號：北上由嘉義交流道下，往台1線民雄方向，於106號縣道右轉往中正大學方向於豐收村牌樓左轉即可抵達。</br>
+                 <b>開放時間： </b>AM6:00-PM9:00</br>
+                 </small></p>
+             </div>
+           </div>
+         </div>
+       </div>
+       <!-- 八仙山寶林禪寺-->
+       <div class="card mb-3">
+         <div class="row g-0">
+           <div class="col-md-4 d-flex justify-content-center align-items-center">
+             <img src="images/八仙山寶林禪寺.jpg" class="img-fluid rounded " alt="...">
+           </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title" style="text-align: center;"><b> 八仙山寶林禪寺</b></h2>
+               <p class="card-text">
+                松山村是屬於民雄郊區地方，土地廣大，有山有水，風景優美。舊地名：松子腳、松仔腳莊、后山仔莊。村內宗教活動鼎盛，位在松山村後山仔八鄰與竹崎鄉交界處，最初當地人稱八仙山。</br>
+                八仙山原是一片荒蕪的山林，當年觀妙法師(寶林禪寺的開山住持)三步一拜由北往南朝山行腳時，行經嘉義大林香焦山時，據說有菩薩示現靈異，信徒於是指引方向，引導法師來到現址，並於民國四十九年（西元1960年）初建茅蓬。經過他辛勞奔走，又得渡妙尼師的協助，加上當地村民的熱心幫助，大家出錢出力，在荒山中終於建起一座巍峨壯觀的寶林禪寺。此地四面環山圍遶，風景優美。寶林禪寺佔地約二甲，主祀釋迦牟尼佛，群山環抱環境幽靜非常，目前常住有七、八人，其中四人是出家眾，皆為比丘尼，寺院尚有接納養老服務，若身體硬朗能分擔寺院雜務者，亦可免費居住於此。<br>
+                現在寶林禪寺，由觀妙女弟子幸定尼師主持，她出身嘉義市木材富商之後，投入很多精神和血汗，擴建寺廟的規模，也使得更多信士來此禮佛參道。<br>
+               </p>
+               <p class="card-text"><small class="text-muted">
+                <b>電話：</b>886-5-2721026<br>
+                 <b>地址： </b>嘉義縣民雄鄉松山村後山仔38-2號</br>
+                 <b>自行前往： </b>國道1號：至大林交流道前行至溪口路右轉→民族路然後右轉→忠孝路縱貫公路再往前行大約三十分鐘可到達。</br>
+                 <b>大眾運輸：</b>大林路往民雄方向，開到松山國小，往前行后山仔約55分鐘，即可看到寶林禪寺的大門口；或在松山國小可以問當地的人詳細方向。<br>
+                 <b>開放時間： </b>6：00-19：00</br>
+               </small></p>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+
+     <!--👻 特殊景點 / 靈異探險-->
+     <h3 class="accactive"><b style="font-size:larger;">👻 特殊景點 / 靈異探險</b></h3>
+     <div id="acc">
+       <p>
+         <b>
+          喜歡探訪神秘地點、都市傳說愛好者首選
+         </b>
+       </p>
+       
+       <!--推薦景點-->
+       <h4 class="mt-5"><img class=".img-fluid rounded" width="40px" src="images/icon_HOT.png" alt="">推薦景點</h4>
+       <!--劉家古樓-->
+       <div class="card mb-3">
+         <div class="row g-0">
+           <div class="col-md-4 d-flex justify-content-center align-items-center">
+             <img src="images/劉家古樓.jpg" class="img-fluid rounded " alt="...">
+           </div>
+           <div class="col-md-8">
+             <div class="card-body">
+               <h2 class="card-title"><b>劉家古樓</b></h2>
+               <hr>
+               <p class="card-text">
+                劉家古樓即是聞名全台的民雄鬼屋，地點位在民雄鄉義檢山墳場附近。主體建於1929年，古樓為三層樓巴洛克式風格建築，紅磚砌牆，華麗典雅，後來劉家人不知何故陸續遷出，致年久失修，如今廣大庭院荒煙蔓草。這邊的靈異傳說不斷，為全台四大鬼屋之一。</br>
+                而房子的建造過程也頗為神奇，據說古樓的主人在神明的指引下，跟著一團神火來到義檢山下，神火熄了，神明說那塊地風水好，適合建屋置產，就這樣古樓的主人走訪各地有名的宅邸，於是樓房落成了，引起當地居民的注目。 這邊靈異傳說不斷，而起源眾說紛紜。日治時期，該豪宅曾遭美軍掃射，二戰後又供士兵居住，後來軍隊撤走，由於沒水沒電，窗戶通風不佳，一直沒有人居住，而部隊居住期間，由於偶爾傳出槍聲，有人說是因為阿兵哥思鄉心切而想不開自殺，鬼屋之說於是不脛而走。至於民間傳說則穿鑿男女情愛，盛傳女主人因懷疑婢女與男主人私通，憤而逼婢女投井自殺，每到深夜，鬼屋即傳出奇怪聲響，許多繪聲繪影的傳聞乃流傳開來。<br>
+                其實只是樓閣破舊，庭院草長，樹影陰鬱而巳。 而據古樓的主人後代証實，因為古樓地處偏僻才遷居，而古樓因乏人整理，隨著歲月的侵蝕，日漸剝落；誰知道卻成為鄉野傳奇中的主角，變了鬼屋。其實民雄文教基金會計畫將劉家古厝整修設置木涼亭、咖啡座等設施，讓遊人可尋幽訪勝，談古論今，享受難得的休閒，後來部分劉家後代出現不同的聲音，該計畫隨即被終止。<br>
+               </p>
+               <p class="card-text"><small class="text-muted">
+                <b>地址：</b>嘉義縣民雄鄉興中村義橋<br>
+                 <b>自行前往： </b>國道3號：下竹崎交流道往民雄方向沿166縣道接嘉82可抵。</br>
+                 <b>開放時間： </b>全日開放，不建議晚上及農曆七月前往。</br>
+               </small></p>
+             </div>
+           </div>
+         </div>
+     </div>
+     </div>
+    </div>
+
+    <!--頁尾-->
+    <div id="foot" class="container-fluid mt-4 border-top border-3 text-center" style="background-color:aliceblue">
+      <div class="row mt-5">
+        <!--聯絡我們-->
+        <div class="col-md-4">
+          <h2 style="color:cadetblue"><b>˗ˏˋ 聯絡我們 ˎˊ˗</b></h2>
+          <p>⌂地址：台北市中正區悠遊路123號</p>
+          <p>☎電話：(02) 1234-5678</p>
+          <p>✉Email：info@yourwebsite.com</p>
+        </div>
+        <!--關於我們-->
+        <div class="col-md-4">
+          <h2 style="color:cadetblue"><b>˗ˏˋ 關於我們 ˎˊ˗</b></h2>
+          <p>悠遊指南是一個提供旅遊資訊的網站，致力於幫助遊客探索世界各地的美景。</p>
+          <img class="img-fluid" src="images/logo.png" style="width: 250px;"/>
+        </div>
+        <!--關注我們-->
+        <div class="col-md-4">
+          <h2 style="color:cadetblue"><b>˗ˏˋ 關注我們 ˎˊ˗</b></h2>
+          <p>加入我們的社群，隨時獲得最新的旅遊資訊和活動通知。</p>
+          <ul class="list-inline">
+              <li class="list-inline-item"><img class="img-fluid" src="images/foot_fb.png"></li>
+              <li class="list-inline-item"><img class="img-fluid" src="images/foot_ig.png"></li>
+              <li class="list-inline-item"><img class="img-fluid" src="images/foot_x.png"></li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+      <div class="text-center">
+        <p>&copy; 2023 悠遊指南. 保留所有權利。</p>
+        <p>隱私政策 | 使用條款</p>
+      </div>
+    </div>
+
+    <!--進度條-->
+    <svg height="60" width="60" class="to-top">
+      <circle class="" cx="30" cy="30" r="28" stroke="grey" stroke-width="3" />
+      <circle class="progress" cx="30" cy="30" r="28" stroke="white" stroke-width="3" />
+      <g class="arrow" id="arrow" data-name="Group 62" >
+        <line class="line" id="Line_left" data-name="Line 13" x1="0" y1="18" x2="16" y2="0" fill="none" stroke="#ffffff" stroke-width="3"/>
+        <line class="line" id="Line_right" data-name="Line 14" x1="14" y1="0" x2="30" y2="18" fill="none" stroke="#ffffff" stroke-width="3"/>
+      </g>
+    </svg>
+
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function() {
+          let carousel = document.getElementById('carouselExampleInterval');
+          let videos = carousel.querySelectorAll('video');
+          
+          videos.forEach(function(video, index) {
+            video.addEventListener('ended', function() {
+              // 影片撥放完後撥放下一個
+              if (index < videos.length - 1) {
+                carousel.querySelector('.carousel-control-next').click(); //模擬點擊下一個
+              } else {
+                //如果是最後一個一樣模擬點擊下一個
+                carousel.querySelector('.carousel-control-next').click();
+              }
+            });
+          });
+        });
+
+      //最近瀏覽
+      $(".owl-carousel").owlCarousel({
+        loop: true, // 循環播放
+        margin: 10, // 外距 10px
+        nav: true, // 顯示點點
+        responsive: {
+          0: {
+            items: 1 // 螢幕大小為 0~600 顯示 1 個項目
+          },
+          600: {
+            items: 2 // 螢幕大小為 600~1000 顯示 3 個項目
+          },
+          1000: {
+            items: 3 // 螢幕大小為 1000 以上 顯示 5 個項目
+          }
+        }
+      });
+
+      //當滑鼠移動到目標時
+      $(".item").mouseenter(function(){
+        $(this).find(".card-img-overlay").css("opacity", 0);
+      });
+
+      // 當滑鼠離開時
+      $(".item").mouseleave(function(){
+        $(this).find(".card-img-overlay").css("opacity", 0.9);
+      });
+
+      // 取得.navbar的CSS
+      function getComputedStyleValue(element, property) {
+          return window.getComputedStyle(element, null).getPropertyValue(property);
+      }
+
+      // 結束事件
+      document.querySelector('.navbar').addEventListener('animationend', function(e) {
+          if (e.animationName === 'moving') {
+              const backgroundPosition = getComputedStyleValue(this, 'background-position');
+              console.log('最终的background-position:', backgroundPosition);
+              if (backgroundPosition === '100%') { this.style.backgroundPosition = '0%'; }
+          }
+      });
+
+      //今日主打
+      $(function() {
+        $("#accordion").accordion();
+      });
+
+      $(document).ready(function() {
+        $("#accordion h3").click(function() {
+          // 先移除所有標題的 accactive 類
+          $("#accordion h3").removeClass("accactive");
+          // 將被點擊的標題添加 accactive 類
+          $(this).addClass("accactive");
+        });
+      });
+
+      $(function() {
+        $("#accordion2").accordion();
+      });
+
+      $(document).ready(function() {
+        $("#accordion2 h3").click(function() {
+          // 先移除所有標題的 accactive 類
+          $("#accordion2 h3").removeClass("accactive2");
+          // 將被點擊的標題添加 accactive 類
+          $(this).addClass("accactive2");
+        });
+      });
+
+      /** 夜間、白天 **/
+      const options = {
+          bottom: '32px', // default: '32px'
+          right: 'unset', // default: '32px'
+          left: '32px', // default: 'unset'
+          time: '0.5s', // default: '0.3s'
+          mixColor: '#fff', // default: '#fff'
+          backgroundColor: '#fff',  // default: '#fff'
+          buttonColorDark: '#100f2c',  // default: '#100f2c'
+          buttonColorLight: '#fff', // default: '#fff'
+          saveInCookies: false, // default: true,
+          label: '🌓', // default: ''
+          autoMatchOsTheme: true // default: true
+        }
+
+      const darkmode = new Darkmode(options);
+      darkmode.showWidget();
+
+      /**進度條*/
+      const pageHeight = document.body.clientHeight - window.innerHeight;
+      const circle = document.querySelector('.progress');
+      const svg = document.querySelector('svg');
+
+      document.addEventListener('scroll',function(){
+        let scrollPos =  window.scrollY 
+        
+        //讓滾動的時候才跑出來
+        if(!scrollPos) svg.style.opacity = 0;
+        if(scrollPos) svg.style.opacity = 1;
+
+        //滾動的距離去算圈圈的線要出來多少
+        let darshOffset = 300 - scrollPos/pageHeight * (300 - 5);
+
+        //設定變數
+        circle.style.setProperty('--dashOffset', darshOffset);
+        
+      })
+
+      /**按下進度條移動到最上方**/
+      const toTopButton = document.querySelector('.to-top');
+
+      toTopButton.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth' // 平滑滚动效果
+        });
+      });
+
+      /** Nanbar **/
+      $(function(){
+        $(window).scroll(function(){
+          //取得捲動多少
+          var t = $(window).scrollTop();
+
+          //80為px
+          if(t > 80){
+            //動態加入class
+            $("#header").addClass("small");
+          }
+          else{
+            //回復原來的class
+            $("#header").removeClass("small");
+          }
+        });
+      })
+
+      $("#japan").click(function(){
+        window.location.href = 'Japan.html';
+      });
+
+    </script>
+
+</body>
+</html>
